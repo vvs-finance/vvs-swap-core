@@ -1,13 +1,15 @@
 pragma solidity =0.5.16;
 
-import './interfaces/IPancakeERC20.sol';
+import "@openzeppelin/contracts/cryptography/ECDSA.sol";
+import './interfaces/IVVSERC20.sol';
 import './libraries/SafeMath.sol';
 
-contract PancakeERC20 is IPancakeERC20 {
+contract VVSERC20 is IVVSERC20 {
     using SafeMath for uint;
+    using ECDSA for bytes32;
 
-    string public constant name = 'Pancake LPs';
-    string public constant symbol = 'Cake-LP';
+    string public constant name = 'VVS Finance LPs';
+    string public constant symbol = 'VVS-LP';
     uint8 public constant decimals = 18;
     uint  public totalSupply;
     mapping(address => uint) public balanceOf;
@@ -79,7 +81,7 @@ contract PancakeERC20 is IPancakeERC20 {
     }
 
     function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external {
-        require(deadline >= block.timestamp, 'Pancake: EXPIRED');
+        require(deadline >= block.timestamp, 'VVS: EXPIRED');
         bytes32 digest = keccak256(
             abi.encodePacked(
                 '\x19\x01',
@@ -87,8 +89,8 @@ contract PancakeERC20 is IPancakeERC20 {
                 keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
             )
         );
-        address recoveredAddress = ecrecover(digest, v, r, s);
-        require(recoveredAddress != address(0) && recoveredAddress == owner, 'Pancake: INVALID_SIGNATURE');
+        address recoveredAddress = digest.recover(abi.encodePacked(r, s, v));
+        require(recoveredAddress != address(0) && recoveredAddress == owner, 'VVS: INVALID_SIGNATURE');
         _approve(owner, spender, value);
     }
 }

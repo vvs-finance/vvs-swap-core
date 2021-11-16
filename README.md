@@ -1,12 +1,8 @@
-# Pancake Factory
+# VVS Swap Core
 
-[![Actions Status](https://github.com/pancakeswap/pancake-swap-core/workflows/CI/badge.svg)](https://github.com/pancakeswap/pancake-swap-core/actions)
+## Requirement:
 
-In-depth documentation on PancakeSwap is available at [docs.pancakeswap.finance](https://docs.pancakeswap.finance/).
-
-# Local Development
-
-The following assumes the use of `node@>=10`.
+`node@>=10`.
 
 ## Install Dependencies
 
